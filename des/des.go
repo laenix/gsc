@@ -1,4 +1,3 @@
-// DES算法实现
 package des
 
 import (

@@ -1,8 +1,6 @@
 package modes
 
-import (
-	"github.com/laenix/gsc/modes/internal"
-)
+import "github.com/laenix/gsc/modes/internal"
 
 // CFB 结构体实现了密码反馈(CFB)模式
 type CFB struct {

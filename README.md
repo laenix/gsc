@@ -27,13 +27,8 @@ github.com/laenix/gsc/
 │   ├── ctr.go     - CTR模式实现
 │   ├── gcm.go     - GCM模式实现
 │   └── internal/  - 内部辅助函数
-├── padding/        - 填充方式
-│   ├── pkcs7.go   - PKCS#7填充
-│   └── zero.go    - 零填充
-└── test/          - 测试用例
-    ├── aes/       - AES相关测试
-    ├── des/       - DES相关测试
-    └── modes/     - 加密模式测试
+└── padding/        - 填充方式
+    └── padding.go  - 填充方式
 ```
 
 ## 算法实现
@@ -93,113 +88,6 @@ github.com/laenix/gsc/
    - 提供认证功能（AEAD）
    - 支持额外认证数据（AAD）
    - 高效且安全
-
-## 使用示例
-
-### AES加密示例
-
-```go
-package main
-
-import (
-    "fmt"
-    "github.com/laenix/gsc/aes"
-    "github.com/laenix/gsc/modes"
-    "github.com/laenix/gsc/padding"
-)
-
-func main() {
-    // 创建密钥（16字节）
-	key := []byte("0123456789ABCDEF")
-
-	// 创建明文（需要填充）
-	plaintext := []byte("测试AES加密解密")
-
-	// 使用PKCS7填充
-	paddedPlaintext := padding.PKCS7Padding(plaintext, 16)
-
-	// 创建AES加密器
-	cipher, _ := aes.New(key)
-
-	// 分块加密
-	blockSize := 16
-	ciphertext := make([]byte, len(paddedPlaintext))
-	for i := 0; i < len(paddedPlaintext); i += blockSize {
-		block, _ := cipher.Encrypt(paddedPlaintext[i : i+blockSize])
-		copy(ciphertext[i:i+blockSize], block)
-	}
-
-	// 分块解密
-	decryptedText := make([]byte, len(ciphertext))
-	for i := 0; i < len(ciphertext); i += blockSize {
-		block, _ := cipher.Decrypt(ciphertext[i : i+blockSize])
-		copy(decryptedText[i:i+blockSize], block)
-	}
-
-	// 移除填充
-	unpaddedText, _ := padding.PKCS7Unpadding(decryptedText)
-
-	// 输出结果
-	fmt.Printf("原文: %s\n", plaintext)
-	fmt.Printf("解密: %s\n", unpaddedText)
-}
-```
-
-### DES加密示例
-
-```go
-package main
-
-import (
-    "fmt"
-    "github.com/laenix/gsc/des"
-    "github.com/laenix/gsc/padding"
-)
-
-func main() {
-    // 示例密钥（8字节 = 64位）
-	key := []byte("12345678")
-
-	// 创建DES密码
-	cipher, err := des.New(key)
-	if err != nil {
-		log.Fatalf("创建DES失败: %v", err)
-	}
-
-	// 示例明文
-	plaintext := []byte("DESTEST")
-	fmt.Printf("原始明文: %s\n", plaintext)
-	fmt.Printf("明文长度: %d 字节\n", len(plaintext))
-	fmt.Printf("明文十六进制: %s\n\n", hex.EncodeToString(plaintext))
-
-	// 对明文进行PKCS#7填充
-	paddedPlaintext := padding.PKCS7Padding(plaintext, cipher.BlockSize())
-	fmt.Printf("填充后明文长度: %d 字节\n", len(paddedPlaintext))
-	fmt.Printf("填充后明文十六进制: %s\n\n", hex.EncodeToString(paddedPlaintext))
-
-	// 加密
-	ciphertext, err := cipher.Encrypt(paddedPlaintext)
-	if err != nil {
-		log.Fatalf("DES加密失败: %v", err)
-	}
-	fmt.Printf("DES加密后的密文 (Hex): %s\n", hex.EncodeToString(ciphertext))
-
-	// 解密
-	decrypted, err := cipher.Decrypt(ciphertext)
-	if err != nil {
-		log.Fatalf("DES解密失败: %v", err)
-	}
-	fmt.Printf("DES解密后的填充明文: %s\n", decrypted)
-	fmt.Printf("解密后填充明文十六进制: %s\n\n", hex.EncodeToString(decrypted))
-
-	// 去除填充
-	unpaddedDecrypted, err := padding.PKCS7Unpadding(decrypted)
-	if err != nil {
-		log.Fatalf("去除填充失败: %v", err)
-	}
-	fmt.Printf("去除填充后的明文: %s\n", unpaddedDecrypted)
-}
-```
 
 ## 安全提示
 

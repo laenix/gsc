@@ -1,8 +1,6 @@
 package modes
 
-import (
-	"github.com/laenix/gsc/modes/internal"
-)
+import "github.com/laenix/gsc/modes/internal"
 
 // OFB 结构体实现了输出反馈(OFB)模式
 type OFB struct {

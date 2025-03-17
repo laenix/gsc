@@ -1,8 +1,6 @@
 package modes
 
-import (
-	"errors"
-)
+import "errors"
 
 // 常见错误
 var (
@@ -45,7 +43,7 @@ type AuthenticatedMode interface {
 }
 
 // PaddingFunc 定义了填充函数的类型
-type PaddingFunc func([]byte, int) []byte
+type PaddingFunc func([]byte, int) ([]byte, error)
 
 // UnpaddingFunc 定义了取消填充函数的类型
 type UnpaddingFunc func([]byte) ([]byte, error)

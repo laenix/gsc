@@ -1,30 +1,15 @@
 package modes
 
-import (
-	"github.com/laenix/gsc/padding"
-)
-
 // ECB 结构体实现了电子密码本(ECB)模式
 type ECB struct {
-	cipher   BlockCipher
-	padder   PaddingFunc
-	unpadder UnpaddingFunc
+	cipher BlockCipher
 }
 
 // NewECB 创建一个新的ECB模式封装器
 func NewECB(cipher BlockCipher) *ECB {
 	return &ECB{
-		cipher:   cipher,
-		padder:   padding.PKCS7Padding,
-		unpadder: padding.PKCS7Unpadding,
+		cipher: cipher,
 	}
-}
-
-// WithPadding 设置自定义填充方法
-func (e *ECB) WithPadding(padder PaddingFunc, unpadder UnpaddingFunc) *ECB {
-	e.padder = padder
-	e.unpadder = unpadder
-	return e
 }
 
 // Encrypt 使用ECB模式加密数据（不含填充，要求输入长度为块大小的整数倍）
@@ -72,27 +57,6 @@ func (e *ECB) Decrypt(ciphertext []byte) ([]byte, error) {
 	}
 
 	return plaintext, nil
-}
-
-// EncryptPadded 使用填充方法加密任意长度的数据
-func (e *ECB) EncryptPadded(plaintext []byte) ([]byte, error) {
-	if e.padder == nil {
-		return nil, ErrInvalidPadding
-	}
-	padded := e.padder(plaintext, e.cipher.BlockSize())
-	return e.Encrypt(padded)
-}
-
-// DecryptPadded 解密并移除填充
-func (e *ECB) DecryptPadded(ciphertext []byte) ([]byte, error) {
-	if e.unpadder == nil {
-		return nil, ErrInvalidPadding
-	}
-	plaintext, err := e.Decrypt(ciphertext)
-	if err != nil {
-		return nil, err
-	}
-	return e.unpadder(plaintext)
 }
 
 // BlockSize 返回块大小

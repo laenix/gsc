@@ -2,15 +2,12 @@ package modes
 
 import (
 	"github.com/laenix/gsc/modes/internal"
-	"github.com/laenix/gsc/padding"
 )
 
 // CBC 结构体实现了密码块链接(CBC)模式
 type CBC struct {
-	cipher   BlockCipher
-	iv       []byte
-	padder   PaddingFunc
-	unpadder UnpaddingFunc
+	cipher BlockCipher
+	iv     []byte
 }
 
 // NewCBC 创建一个新的CBC模式封装器
@@ -25,18 +22,9 @@ func NewCBC(cipher BlockCipher, iv []byte) (*CBC, error) {
 	copy(ivCopy, iv)
 
 	return &CBC{
-		cipher:   cipher,
-		iv:       ivCopy,
-		padder:   padding.PKCS7Padding,
-		unpadder: padding.PKCS7Unpadding,
+		cipher: cipher,
+		iv:     ivCopy,
 	}, nil
-}
-
-// WithPadding 设置自定义填充方法
-func (c *CBC) WithPadding(padder PaddingFunc, unpadder UnpaddingFunc) *CBC {
-	c.padder = padder
-	c.unpadder = unpadder
-	return c
 }
 
 // Encrypt 使用CBC模式加密数据（不含填充，要求输入长度为块大小的整数倍）
@@ -107,27 +95,6 @@ func (c *CBC) Decrypt(ciphertext []byte) ([]byte, error) {
 	}
 
 	return plaintext, nil
-}
-
-// EncryptPadded 使用填充方法加密任意长度的数据
-func (c *CBC) EncryptPadded(plaintext []byte) ([]byte, error) {
-	if c.padder == nil {
-		return nil, ErrInvalidPadding
-	}
-	padded := c.padder(plaintext, c.cipher.BlockSize())
-	return c.Encrypt(padded)
-}
-
-// DecryptPadded 解密并移除填充
-func (c *CBC) DecryptPadded(ciphertext []byte) ([]byte, error) {
-	if c.unpadder == nil {
-		return nil, ErrInvalidPadding
-	}
-	plaintext, err := c.Decrypt(ciphertext)
-	if err != nil {
-		return nil, err
-	}
-	return c.unpadder(plaintext)
 }
 
 // BlockSize 返回块大小

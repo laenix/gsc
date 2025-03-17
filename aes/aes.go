@@ -11,6 +11,8 @@ const (
 	KeySize128 = 16
 	KeySize192 = 24
 	KeySize256 = 32
+	// 块大小
+	BlockSize = 16
 )
 
 // AES 结构体定义AES密码
