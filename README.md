@@ -13,7 +13,7 @@
 ## 加密算法
 - [] SM2
 - ✅ SM3
-- [] SM4
+- ✅ SM4
 - [] SM9
 - [] ZUC
 - ✅ AES
@@ -22,7 +22,7 @@
 - [] 3-key des
 - ✅ Blowfish
 - [] Twofish
-- [] RC4
+- ✅ RC4
 - [] RC5
 - [] RSA
 - [] DSA
