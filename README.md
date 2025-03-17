@@ -1,4 +1,4 @@
-# GSC (Go Simple Crypto)
+# github.com/laenix/gsc (Go Simple Crypto)
 
 这是一个用Go语言实现的分组密码教学项目，旨在帮助学习者理解常见的分组密码算法（如AES、DES）及其工作模式。本项目的代码经过精心设计，注重可读性和教学价值，适合密码学初学者学习和参考。
 
@@ -13,7 +13,7 @@
 ## 项目结构
 
 ```
-gsc/
+github.com/laenix/gsc/
 ├── aes/            - AES算法实现
 │   └── internal/   - AES算法内部常量和辅助函数
 ├── des/            - DES算法实现
@@ -103,34 +103,45 @@ package main
 
 import (
     "fmt"
-    "gsc/aes"
-    "gsc/modes"
-    "gsc/padding"
+    "github.com/laenix/gsc/aes"
+    "github.com/laenix/gsc/modes"
+    "github.com/laenix/gsc/padding"
 )
 
 func main() {
-    // 创建密钥（16字节 = 128位）
-    key := []byte("0123456789abcdef")
-    
-    // 创建AES实例
-    cipher, err := aes.New(key)
-    if err != nil {
-        panic(err)
-    }
-    
-    // 准备要加密的数据
-    plaintext := []byte("Hello, Crypto!")
-    
-    // 使用PKCS#7填充
-    padded := padding.PKCS7Pad(plaintext, cipher.BlockSize())
-    
-    // 加密
-    ciphertext := make([]byte, len(padded))
-    for i := 0; i < len(padded); i += cipher.BlockSize() {
-        cipher.Encrypt(ciphertext[i:i+cipher.BlockSize()], padded[i:i+cipher.BlockSize()])
-    }
-    
-    fmt.Printf("密文: %x\n", ciphertext)
+    // 创建密钥（16字节）
+	key := []byte("0123456789ABCDEF")
+
+	// 创建明文（需要填充）
+	plaintext := []byte("测试AES加密解密")
+
+	// 使用PKCS7填充
+	paddedPlaintext := padding.PKCS7Padding(plaintext, 16)
+
+	// 创建AES加密器
+	cipher, _ := aes.New(key)
+
+	// 分块加密
+	blockSize := 16
+	ciphertext := make([]byte, len(paddedPlaintext))
+	for i := 0; i < len(paddedPlaintext); i += blockSize {
+		block, _ := cipher.Encrypt(paddedPlaintext[i : i+blockSize])
+		copy(ciphertext[i:i+blockSize], block)
+	}
+
+	// 分块解密
+	decryptedText := make([]byte, len(ciphertext))
+	for i := 0; i < len(ciphertext); i += blockSize {
+		block, _ := cipher.Decrypt(ciphertext[i : i+blockSize])
+		copy(decryptedText[i:i+blockSize], block)
+	}
+
+	// 移除填充
+	unpaddedText, _ := padding.PKCS7Unpadding(decryptedText)
+
+	// 输出结果
+	fmt.Printf("原文: %s\n", plaintext)
+	fmt.Printf("解密: %s\n", unpaddedText)
 }
 ```
 
@@ -141,33 +152,52 @@ package main
 
 import (
     "fmt"
-    "gsc/des"
-    "gsc/padding"
+    "github.com/laenix/gsc/des"
+    "github.com/laenix/gsc/padding"
 )
 
 func main() {
-    // 创建密钥（8字节 = 64位）
-    key := []byte("01234567")
-    
-    // 创建DES实例
-    cipher, err := des.New(key)
-    if err != nil {
-        panic(err)
-    }
-    
-    // 准备要加密的数据
-    plaintext := []byte("Hello!")
-    
-    // 使用PKCS#7填充
-    padded := padding.PKCS7Pad(plaintext, cipher.BlockSize())
-    
-    // 加密
-    ciphertext := make([]byte, len(padded))
-    for i := 0; i < len(padded); i += cipher.BlockSize() {
-        cipher.Encrypt(ciphertext[i:i+cipher.BlockSize()], padded[i:i+cipher.BlockSize()])
-    }
-    
-    fmt.Printf("密文: %x\n", ciphertext)
+    // 示例密钥（8字节 = 64位）
+	key := []byte("12345678")
+
+	// 创建DES密码
+	cipher, err := des.New(key)
+	if err != nil {
+		log.Fatalf("创建DES失败: %v", err)
+	}
+
+	// 示例明文
+	plaintext := []byte("DESTEST")
+	fmt.Printf("原始明文: %s\n", plaintext)
+	fmt.Printf("明文长度: %d 字节\n", len(plaintext))
+	fmt.Printf("明文十六进制: %s\n\n", hex.EncodeToString(plaintext))
+
+	// 对明文进行PKCS#7填充
+	paddedPlaintext := padding.PKCS7Padding(plaintext, cipher.BlockSize())
+	fmt.Printf("填充后明文长度: %d 字节\n", len(paddedPlaintext))
+	fmt.Printf("填充后明文十六进制: %s\n\n", hex.EncodeToString(paddedPlaintext))
+
+	// 加密
+	ciphertext, err := cipher.Encrypt(paddedPlaintext)
+	if err != nil {
+		log.Fatalf("DES加密失败: %v", err)
+	}
+	fmt.Printf("DES加密后的密文 (Hex): %s\n", hex.EncodeToString(ciphertext))
+
+	// 解密
+	decrypted, err := cipher.Decrypt(ciphertext)
+	if err != nil {
+		log.Fatalf("DES解密失败: %v", err)
+	}
+	fmt.Printf("DES解密后的填充明文: %s\n", decrypted)
+	fmt.Printf("解密后填充明文十六进制: %s\n\n", hex.EncodeToString(decrypted))
+
+	// 去除填充
+	unpaddedDecrypted, err := padding.PKCS7Unpadding(decrypted)
+	if err != nil {
+		log.Fatalf("去除填充失败: %v", err)
+	}
+	fmt.Printf("去除填充后的明文: %s\n", unpaddedDecrypted)
 }
 ```
 

@@ -6,8 +6,8 @@ import (
 	"log"
 	"testing"
 
-	"gsc/aes"
-	"gsc/modes"
+	"github.com/laenix/gsc/aes"
+	"github.com/laenix/gsc/modes"
 )
 
 func TestCTR(t *testing.T) {

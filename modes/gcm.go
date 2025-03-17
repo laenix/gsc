@@ -3,7 +3,8 @@ package modes
 import (
 	"bytes"
 	"errors"
-	"gsc/modes/internal"
+
+	"github.com/laenix/gsc/modes/internal"
 )
 
 const (

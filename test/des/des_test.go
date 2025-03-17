@@ -6,8 +6,8 @@ import (
 	"log"
 	"testing"
 
-	"gsc/des"
-	"gsc/padding"
+	"github.com/laenix/gsc/des"
+	"github.com/laenix/gsc/padding"
 )
 
 func TestDES(t *testing.T) {

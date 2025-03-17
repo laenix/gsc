@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"gsc/des"
-	"gsc/padding"
+	"github.com/laenix/gsc/des"
+	"github.com/laenix/gsc/padding"
 )
 
 func TestDES() {

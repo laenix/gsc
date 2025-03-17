@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gsc/aes"
-	"gsc/padding"
+	"github.com/laenix/gsc/aes"
+	"github.com/laenix/gsc/padding"
 )
 
 func TestAES(t *testing.T) {

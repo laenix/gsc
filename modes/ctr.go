@@ -1,7 +1,7 @@
 package modes
 
 import (
-	"gsc/modes/internal"
+	"github.com/laenix/gsc/modes/internal"
 )
 
 // CTR 结构体实现了计数器(CTR)模式

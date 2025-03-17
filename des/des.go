@@ -4,7 +4,8 @@ package des
 import (
 	"encoding/binary"
 	"errors"
-	"gsc/des/internal"
+
+	"github.com/laenix/gsc/des/internal"
 )
 
 const (

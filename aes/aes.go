@@ -2,7 +2,8 @@ package aes
 
 import (
 	"errors"
-	"gsc/aes/internal"
+
+	"github.com/laenix/gsc/aes/internal"
 )
 
 const (

@@ -1,8 +1,8 @@
 package modes
 
 import (
-	"gsc/modes/internal"
-	"gsc/padding"
+	"github.com/laenix/gsc/modes/internal"
+	"github.com/laenix/gsc/padding"
 )
 
 // CBC 结构体实现了密码块链接(CBC)模式

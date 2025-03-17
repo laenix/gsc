@@ -2,8 +2,9 @@ package padding_test
 
 import (
 	"bytes"
-	"gsc/padding"
 	"testing"
+
+	"github.com/laenix/gsc/padding"
 )
 
 func TestPKCS7Padding(t *testing.T) {

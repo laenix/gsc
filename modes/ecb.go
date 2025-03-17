@@ -1,7 +1,7 @@
 package modes
 
 import (
-	"gsc/padding"
+	"github.com/laenix/gsc/padding"
 )
 
 // ECB 结构体实现了电子密码本(ECB)模式
