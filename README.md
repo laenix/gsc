@@ -1,14 +1,48 @@
 # github.com/laenix/gsc (Go Simple Crypto)
 
-这是一个用Go语言实现的分组密码教学项目，旨在帮助学习者理解常见的分组密码算法（如AES、DES）及其工作模式。本项目的代码经过精心设计，注重可读性和教学价值，适合密码学初学者学习和参考。
+这是一个用Go语言实现的分组密码教学项目，旨在帮助学习者理解常见的分组密码算法及其工作模式。本项目的代码经过精心设计，注重可读性和教学价值，适合密码学初学者学习和参考。
 
 ## 项目特点
 
 - 清晰的代码结构和详细的注释
-- 完整实现了AES和DES算法
+- 完整实现了常见算法（AES、DES、Blowfish）
 - 支持多种分组密码工作模式（ECB、CBC、CFB、OFB、CTR、GCM）
-- 包含PKCS#7和零填充等常用填充方式
+- 支持多种常用填充方式(PKCS#7、PKCS#5、ISO9797M1、ISO9797M1额外补0、ISO9797M2、ISO7816、ANSIX923 、ISO10126、TBC、Zero、None)
 - 提供丰富的示例和测试用例
+
+## 加密算法
+
+- ✅ AES
+- ✅ DES
+- [] 2-key des
+- [] 3-key des
+- ✅ Blowfish
+- [] Twofish
+- [] SM4
+- [] RC5
+
+## 分组模式
+
+- ✅ ECB
+- ✅ CBC
+- ✅ CFB
+- ✅ OFB
+- ✅ CTR
+- [] GCM
+
+## 填充模式
+
+- ✅ PKCS#7
+- [] PKCS#5
+- [] M1
+- [] M1(+0)
+- [] M2
+- ✅ ISO7816
+- ✅ ANSIX923
+- [] ISO10126
+- [] TBC
+- [] Zero
+- ✅ None
 
 ## 项目结构
 
@@ -18,6 +52,10 @@ github.com/laenix/gsc/
 │   └── internal/   - AES算法内部常量和辅助函数
 ├── des/            - DES算法实现
 │   └── internal/   - DES算法内部常量和辅助函数
+├── blowfish/       - Blowfish算法实现
+│   └── internal/   - Blowfish算法内部常量和辅助函数
+├── twofish/        - Twofish算法实现
+│   └── internal/   - Twofish算法内部常量和辅助函数
 ├── modes/          - 分组密码工作模式
 │   ├── modes.go   - 通用接口定义
 │   ├── ecb.go     - ECB模式实现
