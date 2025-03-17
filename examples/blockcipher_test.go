@@ -13,3 +13,11 @@ func TestAES_test(t *testing.T) {
 func TestDES_test(t *testing.T) {
 	examples.DES_test()
 }
+
+func TestBlowfish_test(t *testing.T) {
+	examples.Blowfish_test()
+}
+
+func TestTwofish_test(t *testing.T) {
+	examples.Twofish_test()
+}
