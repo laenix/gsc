@@ -1,4 +1,4 @@
-# github.com/laenix/gsc (Go Simple Crypto)
+# Go Simple Crypto
 
 这是一个用Go语言实现的分组密码教学项目，旨在帮助学习者理解常见的分组密码算法及其工作模式。本项目的代码经过精心设计，注重可读性和教学价值，适合密码学初学者学习和参考。
 
@@ -11,15 +11,28 @@
 - 提供丰富的示例和测试用例
 
 ## 加密算法
-
+- [] SM2
+- ✅ SM3
+- [] SM4
+- [] SM9
+- [] ZUC
 - ✅ AES
 - ✅ DES
 - [] 2-key des
 - [] 3-key des
 - ✅ Blowfish
 - [] Twofish
-- [] SM4
+- [] RC4
 - [] RC5
+- [] RSA
+- [] DSA
+- [] ECDSA
+- [] EdDSA
+- [] Curve25519
+- [] Ed25519
+- [] Secp256k1
+- [] NIST P-256
+
 
 ## 分组模式
 
